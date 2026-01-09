@@ -31,3 +31,15 @@ module.exports.signInErrors = (error) => {
     return errors
 
 }
+module.exports.uploadErrors = (error) => {
+    let errors = { maxSize: "", format: "" };
+
+    // Ce message doit correspondre exactement à ce qui est lancé dans le controlleur
+    if (error.message.includes("invalid file"))
+        errors.format = "Format incompatible";
+
+    if (error.message.includes("max size"))
+        errors.maxSize = "Le fichier dépasse 5Mo";
+
+    return errors;
+};

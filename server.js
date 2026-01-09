@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const {checkUser, requireAuth} = require('./middleware/auth.middleware')
+const cors = require('cors')
 
 /////// IMPORTATION DES ROUTES
 
@@ -36,6 +37,21 @@ app.use(checkUser)
 app.get('/jwtid', requireAuth, (req, res) => {
     res.status(200).send(res.locals.user._id)
 })
+
+
+
+/////// CORS
+
+const corsOptions = {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+    "methods": "GET, HEAD, POST, PUT, PATCH, DELETE",
+    "preflightContinue": false,
+    "exposeHeaders": ["sessionId"],
+    "allowedHeaders": ["sessionId", "Content-Type"]
+}
+
+app.use(cors(corsOptions));
 
 /////// ROUTES
 
